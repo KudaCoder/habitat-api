@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-flask db upgrade
+cd api && flask db upgrade
 python wsgi.py
