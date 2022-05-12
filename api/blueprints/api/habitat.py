@@ -116,13 +116,13 @@ class HabitatConfig(MethodView):
     )
     @bp.response(201, ConfigSchema)
     def post(self, data, **kwargs):
-        env = EnvironmentConfig.factory(data)
+        env = EnvironmentConfig.factory(**data)
         return utils.localise_tz("environment", env)
 
 
 @bp.route("/config/new/")
 class NewHabitatConfig(MethodView):
     @bp.response(200, ConfigSchema)
-    def get(self, data, **kwargs):
+    def get(self, **kwargs):
         env = EnvironmentConfig.factory()
         return utils.localise_tz("environment", env)
