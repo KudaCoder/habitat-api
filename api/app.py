@@ -1,6 +1,6 @@
 from flask import Flask
 
-from .config import Config
+from api.config import Config
 import blueprints, models
 
 
