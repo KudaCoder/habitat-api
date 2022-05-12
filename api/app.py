@@ -1,7 +1,7 @@
 from flask import Flask
 
-from . import blueprints, models
-from .config import Config
+from config import Config
+import blueprints, models
 
 
 def create_app():
@@ -9,8 +9,7 @@ def create_app():
     app.config.from_object(Config)
 
     models.init_app(app)
-
-    app.register_blueprint(blueprints.api.bp)
+    blueprints.api.init_app(app)
 
     return app
 
