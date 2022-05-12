@@ -11,5 +11,4 @@ COPY . /usr/src/app/
 RUN pip install psycopg2-binary
 RUN pip install --no-cache-dir -r requirements.txt
 
-RUN chmod +x ./entrypoint.sh
-ENTRYPOINT ["./entrypoint.sh"]
+CMD ["python", "wsgi.py"]
