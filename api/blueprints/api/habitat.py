@@ -1,5 +1,5 @@
-from models import db, Reading, EnvironmentConfig
-from blueprints import utils
+from api.models import db, Reading, EnvironmentConfig
+from api.blueprints import utils
 
 from marshmallow import Schema, fields, post_load
 
