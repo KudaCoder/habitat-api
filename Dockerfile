@@ -1,7 +1,5 @@
 FROM python:3.10
 
-EXPOSE 5000
-
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 ENV PYTHONPATH $PYTHONPATH:/usr/src/app
