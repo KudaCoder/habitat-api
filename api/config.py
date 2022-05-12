@@ -11,7 +11,7 @@ load_dotenv()
 # POSTGRES_DB = os.environ.get("POSTGRES_DB")
 
 # DB_URL = f"postgresql+psycopg2://{POSTGRES_USER}:{POSTGRES_PW}@{POSTGRES_HOST}/{POSTGRES_DB}"
-DB_URL = os.environ["DATABASE_URL"]
+DB_URL = os.environ["DATABASE_URL"].replace("postgres://", "postgresql://", 1)
 
 
 class Config:
