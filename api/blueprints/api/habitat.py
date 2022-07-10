@@ -59,14 +59,15 @@ class HabitatReading(MethodView):
         if reading is None:
             abort(404, message="A reading has not yet been taken!")
 
-        return reading
+        return utils.localise_tz("reading", reading)
 
     @bp.arguments(ReadingSchema(only=("temperature", "humidity")))
-    @bp.response(201)
+    @bp.response(201, ReadingSchema(only=("temperature", "humidity", "time")))
     def post(self, data, **kwargs):
         reading = Reading(temperature=data["temperature"], humidity=data["humidity"])
         db.session.add(reading)
         db.session.commit()
+        return utils.localise_tz("reading", reading)
 
 
 @bp.route("/readings/")
@@ -87,8 +88,7 @@ class HabitatReadings(MethodView):
         else:
             abort(404, message="A method to filter by must be provided")
 
-        reads = [utils.localise_tz("reading", r) for r in readings.all()]
-        return reads
+        return [utils.localise_tz("reading", r) for r in readings.all()]
 
 
 @bp.route("/config/")
@@ -120,8 +120,8 @@ class HabitatConfig(MethodView):
         return utils.localise_tz("environment", env)
 
 
-@bp.route("/config/new/")
-class NewHabitatConfig(MethodView):
+@bp.route("/config/default/")
+class DefaultHabitatConfig(MethodView):
     @bp.response(200, ConfigSchema)
     def get(self, **kwargs):
         env = EnvironmentConfig.factory()

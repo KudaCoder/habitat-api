@@ -41,20 +41,20 @@ class EnvironmentConfig(db.Model):
     @staticmethod
     def factory(**kwargs):
         env = EnvironmentConfig()
-        env.lights_on_time = kwargs.get(
+        env.lights_on_time = data.get(
             "lights_on_time",
-            datetime.strptime(os.environ.get("LIGHTS_ON_TIME"), "%H:%M:%S").time(),
+            datetime.strptime(os.environ.get("LIGHTS_ON_TIME"), "%H:%M").time(),
         )
-        env.lights_off_time = kwargs.get(
+        env.lights_off_time = data.get(
             "lights_off_time",
-            datetime.strptime(os.environ.get("LIGHTS_OFF_TIME"), "%H:%M:%S").time(),
+            datetime.strptime(os.environ.get("LIGHTS_OFF_TIME"), "%H:%M").time(),
         )
-        env.day_h_sp = kwargs.get("day_h_sp", os.environ.get("DAY_H_SP"))
-        env.day_l_sp = kwargs.get("day_l_sp", os.environ.get("DAY_L_SP"))
-        env.night_h_sp = kwargs.get("night_h_sp", os.environ.get("NIGHT_H_SP"))
-        env.night_l_sp = kwargs.get("night_l_sp", os.environ.get("NIGHT_L_SP"))
-        env.humidity_h_sp = kwargs.get("humidity_h_sp", os.environ.get("HUMIDITY_H_SP"))
-        env.humidity_l_sp = kwargs.get("humidity_l_sp", os.environ.get("HUMIDITY_L_SP"))
+        env.day_h_sp = data.get("day_h_sp", os.environ.get("DAY_H_SP"))
+        env.day_l_sp = data.get("day_l_sp", os.environ.get("DAY_L_SP"))
+        env.night_h_sp = data.get("night_h_sp", os.environ.get("NIGHT_H_SP"))
+        env.night_l_sp = data.get("night_l_sp", os.environ.get("NIGHT_L_SP"))
+        env.humidity_h_sp = data.get("humidity_h_sp", os.environ.get("HUMIDITY_H_SP"))
+        env.humidity_l_sp = data.get("humidity_l_sp", os.environ.get("HUMIDITY_L_SP"))
 
         db.session.add(env)
         db.session.commit()
