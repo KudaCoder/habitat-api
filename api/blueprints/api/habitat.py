@@ -40,8 +40,8 @@ class ListReadingsSchema(ReadingSchema):
 
 
 class ConfigSchema(Schema):
-    lights_on_time = fields.Time(required=True, allow_none=False, format="%H:%M")
-    lights_off_time = fields.Time(required=True, allow_none=False, format="%H:%M")
+    lights_on_time = fields.Time(required=True, allow_none=False)
+    lights_off_time = fields.Time(required=True, allow_none=False)
     day_h_sp = fields.Decimal(required=True, allow_none=False, places=1)
     day_l_sp = fields.Decimal(required=True, allow_none=False, places=1)
     night_h_sp = fields.Decimal(required=True, allow_none=False, places=1)
