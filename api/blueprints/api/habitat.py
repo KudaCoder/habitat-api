@@ -29,7 +29,7 @@ class FilterReadingsSchema(Schema):
             if data.get("period") is None:
                 abort(
                     404,
-                    message="If filtering by period, a unit of time must be provided"
+                    message="If filtering by period, a unit of time must be provided",
                 )
         return data
 
@@ -38,6 +38,7 @@ class ListReadingsSchema(ReadingSchema):
     readings = fields.List(
         fields.Nested(ReadingSchema(only=("temperature", "humidity", "time")))
     )
+
 
 class ConfigSchema(Schema):
     lights_on_time = fields.Time(required=True, allow_none=False)
@@ -59,15 +60,15 @@ class HabitatReading(MethodView):
         if reading is None:
             abort(404, message="A reading has not yet been taken!")
 
-        return reading
+        return utils.localise_tz("reading", reading)
 
-    
     @bp.arguments(ReadingSchema(only=("temperature", "humidity")))
-    @bp.response(201)
+    @bp.response(201, ReadingSchema(only=("temperature", "humidity", "time")))
     def post(self, data, **kwargs):
         reading = Reading(temperature=data["temperature"], humidity=data["humidity"])
         db.session.add(reading)
         db.session.commit()
+        return utils.localise_tz("reading", reading)
 
 
 @bp.route("/readings/")
@@ -82,12 +83,14 @@ class HabitatReadings(MethodView):
         elif data.get("date_from") is not None:
             if data.get("date_to") is None:
                 data["date_to"] = datetime.utcnow().date()
-            readings = Reading.find(date_from=data["date_from"], date_to=data["date_to"])
+            readings = Reading.find(
+                date_from=data["date_from"], date_to=data["date_to"]
+            )
         else:
             abort(404, message="A method to filter by must be provided")
 
-        reads = [utils.localise_tz("reading", r) for r in readings.all()]
-        return reads
+        return [utils.localise_tz("reading", r) for r in readings.all()]
+
 
 @bp.route("/config/")
 class HabitatConfig(MethodView):
@@ -98,23 +101,28 @@ class HabitatConfig(MethodView):
             abort(404, message="An environment configuration has not yet been saved!")
         return utils.localise_tz("environment", env)
 
-    @bp.arguments(ConfigSchema(only=(
-        "lights_on_time",
-        "lights_off_time",
-        "day_h_sp",
-        "day_l_sp",
-        "night_h_sp",
-        "night_l_sp",
-        "humidity_h_sp",
-        "humidity_l_sp"
-    )))
+    @bp.arguments(
+        ConfigSchema(
+            only=(
+                "lights_on_time",
+                "lights_off_time",
+                "day_h_sp",
+                "day_l_sp",
+                "night_h_sp",
+                "night_l_sp",
+                "humidity_h_sp",
+                "humidity_l_sp",
+            )
+        )
+    )
     @bp.response(201, ConfigSchema)
     def post(self, data, **kwargs):
         env = EnvironmentConfig.factory(data)
         return utils.localise_tz("environment", env)
-    
-@bp.route("/config/new/")
-class NewHabitatConfig(MethodView):
+
+
+@bp.route("/config/default/")
+class DefaultHabitatConfig(MethodView):
     @bp.response(200, ConfigSchema)
     def get(self, data, **kwargs):
         env = EnvironmentConfig.factory()
