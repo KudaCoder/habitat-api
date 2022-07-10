@@ -36,13 +36,19 @@ class EnvironmentConfig(db.Model):
             humidity_h_sp=config.humidity_h_sp,
             humidity_l_sp=config.humidity_l_sp,
             created=config.created.isoformat(),
-        ) 
+        )
 
     @staticmethod
     def factory(data, **kwargs):
         env = EnvironmentConfig()
-        env.lights_on_time = data.get("lights_on_time", datetime.strptime(os.environ.get("LIGHTS_ON_TIME"), "%H:%M:%S").time())
-        env.lights_off_time = data.get("lights_off_time", datetime.strptime(os.environ.get("LIGHTS_OFF_TIME"), "%H:%M:%S").time())
+        env.lights_on_time = data.get(
+            "lights_on_time",
+            datetime.strptime(os.environ.get("LIGHTS_ON_TIME"), "%H:%M").time(),
+        )
+        env.lights_off_time = data.get(
+            "lights_off_time",
+            datetime.strptime(os.environ.get("LIGHTS_OFF_TIME"), "%H:%M").time(),
+        )
         env.day_h_sp = data.get("day_h_sp", os.environ.get("DAY_H_SP"))
         env.day_l_sp = data.get("day_l_sp", os.environ.get("DAY_L_SP"))
         env.night_h_sp = data.get("night_h_sp", os.environ.get("NIGHT_H_SP"))
