@@ -41,13 +41,16 @@ class EnvironmentConfig(db.Model):
     @staticmethod
     def factory(**kwargs):
         env = EnvironmentConfig()
-        env.lights_on_time = kwargs.get(
-            "lights_on_time",
-            datetime.strptime(os.environ.get("LIGHTS_ON_TIME"), "%H:%M:%S").time(),
+        env.lights_on_time = (
+            datetime.strptime(
+                kwargs.get("lights_on_time", os.environ.get("LIGHTS_ON_TIME")), "%H:%M"
+            ).time(),
         )
-        env.lights_off_time = kwargs.get(
-            "lights_off_time",
-            datetime.strptime(os.environ.get("LIGHTS_OFF_TIME"), "%H:%M:%S").time(),
+        env.lights_off_time = (
+            datetime.strptime(
+                kwargs.get("lights_off_time", os.environ.get("LIGHTS_OFF_TIME")),
+                "%H:%M",
+            ).time(),
         )
         env.day_h_sp = kwargs.get("day_h_sp", os.environ.get("DAY_H_SP"))
         env.day_l_sp = kwargs.get("day_l_sp", os.environ.get("DAY_L_SP"))
