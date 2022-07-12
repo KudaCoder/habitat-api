@@ -3,9 +3,8 @@ from api.blueprints import utils
 
 from marshmallow import Schema, fields, post_load
 
-from flask_smorest import Blueprint
+from flask_smorest import Blueprint, abort
 from flask.views import MethodView
-from flask_smorest import abort
 
 bp = Blueprint("habitat", __name__)
 
