@@ -91,7 +91,6 @@ class HabitatReadings(MethodView):
         return [utils.localise_tz("reading", r) for r in readings.all()]
 
 
-
 @bp.route("/config/")
 class HabitatConfig(MethodView):
     @bp.response(200, ConfigSchema)
