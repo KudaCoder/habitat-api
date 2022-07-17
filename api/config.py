@@ -11,8 +11,9 @@ POSTGRES_HOST = os.environ.get("HOST")
 POSTGRES_DB = os.environ.get("DATABASE")
 POSTGRES_PORT = os.environ.get("PORT")
 
-DB_URL = f"postgresql://{POSTGRES_USER}:{POSTGRES_PW}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
+# DB_URL = f"postgresql://{POSTGRES_USER}:{POSTGRES_PW}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
 # DB_URL = os.environ["DATABASE_URL"].replace("postgres://", "postgresql://", 1)
+DB_URL = "postgres://habitat_user:Ie1zqUIPT2L6znhTFgxpOiZgDV0ewSjT@dpg-cba13b4objdalo36h6qg-a.frankfurt-postgres.render.com/habitat"
 
 
 class Config:
