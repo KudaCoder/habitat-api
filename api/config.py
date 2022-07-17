@@ -5,13 +5,13 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 load_dotenv()
 
-# POSTGRES_USER = os.environ.get("POSTGRES_USER")
-# POSTGRES_PW = os.environ.get("POSTGRES_PW")
-# POSTGRES_HOST = os.environ.get("POSTGRES_HOST")
-# POSTGRES_DB = os.environ.get("POSTGRES_DB")
+POSTGRES_USER = os.environ.get("USER")
+POSTGRES_PW = os.environ.get("PASSWORD")
+POSTGRES_HOST = os.environ.get("HOST")
+POSTGRES_DB = os.environ.get("DATABASE")
 
-# DB_URL = f"postgresql+psycopg2://{POSTGRES_USER}:{POSTGRES_PW}@{POSTGRES_HOST}/{POSTGRES_DB}"
-DB_URL = os.environ["DATABASE_URL"].replace("postgres://", "postgresql://", 1)
+DB_URL = f"postgresql://{POSTGRES_USER}:{POSTGRES_PW}@{POSTGRES_HOST}/{POSTGRES_DB}"
+# DB_URL = os.environ["DATABASE_URL"].replace("postgres://", "postgresql://", 1)
 
 
 class Config:
