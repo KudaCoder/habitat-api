@@ -1,7 +1,7 @@
 from flask import Flask
 
-from api.config import Config
-from api import blueprints, models
+from .config import Config
+from . import blueprints, models
 
 
 def create_app():
