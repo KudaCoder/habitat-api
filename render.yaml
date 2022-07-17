@@ -1,0 +1,20 @@
+services:
+  - name: habitat-api
+    type: web
+    env: python
+    repo: https://github.com/KudaCoder/habitat-api
+    buildCommand: ./render-build.sh
+    startCommand: ALLOWED_HOSTS=".onrender.com" gunicorn --bind :$PORT --workers 4 --worker-class uvicorn.workers.UvicornWorker --config gunicorn.conf.py wsgi:application
+    envVars:
+      - key: FLASK_APP
+        value: app
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: habitat-db
+          property: connectionString
+
+databases:
+  - name: habitat-db
+  - databaseName: habitat
