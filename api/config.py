@@ -9,8 +9,9 @@ POSTGRES_USER = os.environ.get("USER")
 POSTGRES_PW = os.environ.get("PASSWORD")
 POSTGRES_HOST = os.environ.get("HOST")
 POSTGRES_DB = os.environ.get("DATABASE")
+POSTGRES_PORT = os.environ.get("PORT")
 
-DB_URL = f"postgresql://{POSTGRES_USER}:{POSTGRES_PW}@{POSTGRES_HOST}/{POSTGRES_DB}"
+DB_URL = f"postgresql://{POSTGRES_USER}:{POSTGRES_PW}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
 # DB_URL = os.environ["DATABASE_URL"].replace("postgres://", "postgresql://", 1)
 
 
