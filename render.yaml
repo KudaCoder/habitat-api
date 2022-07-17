@@ -6,6 +6,8 @@ services:
     buildCommand: ./render-build.sh
     startCommand: ALLOWED_HOSTS=".onrender.com" gunicorn --bind :$PORT --workers 4 --worker-class uvicorn.workers.UvicornWorker --config gunicorn.conf.py wsgi:application
     envVars:
+      - key: PYTHON_VERSION
+        value: 3.10
       - key: FLASK_APP
         value: app
       - key: SECRET_KEY
@@ -17,4 +19,4 @@ services:
 
 databases:
   - name: habitat-db
-  - databaseName: habitat
+    ipAllowList: []
