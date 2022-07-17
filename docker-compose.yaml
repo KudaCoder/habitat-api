@@ -1,0 +1,43 @@
+version: "3"
+services:
+  habitat-db:
+    container_name: habitat-db
+    image: postgres:latest
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PW}
+    ports:
+      - 5432:5432
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes: 
+      - ./db-data/:/app/postgres/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    stdin_open: true 
+    tty: true
+
+  habitat-api:
+    container_name: habitat-api
+    restart: always
+    build: .
+    working_dir: /app
+    depends_on:
+      - habitat-db
+    ports:
+      - 5000:5000
+    volumes:
+      - ./:/app
+    env_file:
+      - .env
+    command:
+      sh -c "cd api && flask db upgrade && python app.py"
+    stdin_open: true 
+    tty: true
